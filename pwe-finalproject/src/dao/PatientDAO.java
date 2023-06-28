@@ -9,9 +9,9 @@ import model.Appointment;
 import model.Patient;
 
 public class PatientDAO {
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/your_database_name";
-    private static final String JDBC_USERNAME = "your_username";
-    private static final String JDBC_PASSWORD = "your_password";
+    private static final String JDBC_URL = "jdbc:mysql://127.0.0.1:3306/mediviewerdb";
+    private static final String JDBC_USERNAME = "mediviewer";
+    private static final String JDBC_PASSWORD = "123456";
 
     public List<Appointment> getAllAppointments() {
         List<Appointment> appointments = new ArrayList<>();
@@ -21,7 +21,10 @@ public class PatientDAO {
 
         try {
             // Establish the database connection
+        	DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
             connection = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
+
+            // Rest of your code...
 
             // Create the SQL statement
             String sql = "SELECT p.id AS patient_id, p.name AS patient_name, p.date_of_birth, p.age, " +
@@ -52,7 +55,7 @@ public class PatientDAO {
                 // Create a new Patient object and add it to the list
                 Patient patient = new Patient(patientId, patientName, dateOfBirth, age, height, weight, bloodType);
                 Doctor doctor = new Doctor(doctorId, doctorName);
-                Appointment appointment = new Appointment(patient, doctor);
+                Appointment appointment = new Appointment(patient, doctor, dateOfBirth, doctorName);
                 appointments.add(appointment);
             }
 
@@ -70,5 +73,52 @@ public class PatientDAO {
         }
 
         return appointments;
+    }
+    
+    public Patient getPatientById(String patientId) {
+        Patient patient = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // Establish the database connection
+            connection = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
+
+            // Create the SQL statement
+            String sql = "SELECT * FROM patients WHERE id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, patientId);
+
+            // Execute the query
+            resultSet = statement.executeQuery();
+
+            // Retrieve the patient information
+            if (resultSet.next()) {
+                String name = resultSet.getString("name");
+                Date dateOfBirth = resultSet.getDate("date_of_birth");
+                int age = resultSet.getInt("age");
+                double height = resultSet.getDouble("height");
+                double weight = resultSet.getDouble("weight");
+                String bloodType = resultSet.getString("blood_type");
+
+                // Create a new Patient object
+                patient = new Patient(Integer.parseInt(patientId), name, dateOfBirth, age, height, weight, bloodType);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close the resources
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return patient;
     }
 }

@@ -9,9 +9,9 @@ import model.Doctor;
 import model.Patient;
 
 public class AppointmentDAO {
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/your_database_name";
-    private static final String JDBC_USERNAME = "your_username";
-    private static final String JDBC_PASSWORD = "your_password";
+    private static final String JDBC_URL = "jdbc:mysql://127.0.0.1:3306/mediviewerdb";
+    private static final String JDBC_USERNAME = "mediviewer";
+    private static final String JDBC_PASSWORD = "123456";
 
     public List<Appointment> getAllAppointments() {
         List<Appointment> appointments = new ArrayList<>();
@@ -21,6 +21,7 @@ public class AppointmentDAO {
 
         try {
             // Establish the database connection
+        	DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
             connection = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
 
             // Create the SQL statement
