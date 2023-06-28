@@ -3,7 +3,9 @@ package dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.sql.Date;
+import model.Doctor;
+import model.Appointment;
 import model.Patient;
 
 public class PatientDAO {
@@ -11,8 +13,8 @@ public class PatientDAO {
     private static final String JDBC_USERNAME = "your_username";
     private static final String JDBC_PASSWORD = "your_password";
 
-    public List<Patient> getAllPatients() {
-        List<Patient> patients = new ArrayList<>();
+    public List<Appointment> getAllAppointments() {
+        List<Appointment> appointments = new ArrayList<>();
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
@@ -22,7 +24,14 @@ public class PatientDAO {
             connection = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
 
             // Create the SQL statement
-            String sql = "SELECT * FROM patients";
+            String sql = "SELECT p.id AS patient_id, p.name AS patient_name, p.date_of_birth, p.age, " +
+                    "p.height, p.weight, p.blood_type, " +
+                    "d.id AS doctor_id, d.name AS doctor_name " +
+                    "FROM patients p " +
+                    "JOIN appointments a ON p.id = a.patient_id " +
+                    "JOIN doctors d ON a.doctor_id = d.id " +
+                    "ORDER BY a.appointment_date, a.appointment_time " +
+                    "LIMIT 5";
             statement = connection.createStatement();
 
             // Execute the query
@@ -30,14 +39,23 @@ public class PatientDAO {
 
             // Iterate over the result set and create Patient objects
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
+                int patientId = resultSet.getInt("patient_id");
+                String patientName = resultSet.getString("patient_name");
+                Date dateOfBirth = resultSet.getDate("date_of_birth");
                 int age = resultSet.getInt("age");
+                double height = resultSet.getDouble("height");
+                double weight = resultSet.getDouble("weight");
+                String bloodType = resultSet.getString("blood_type");
+                int doctorId = resultSet.getInt("doctor_id");
+                String doctorName = resultSet.getString("doctor_name");
 
                 // Create a new Patient object and add it to the list
-                Patient patient = new Patient(id, name, age);
-                patients.add(patient);
+                Patient patient = new Patient(patientId, patientName, dateOfBirth, age, height, weight, bloodType);
+                Doctor doctor = new Doctor(doctorId, doctorName);
+                Appointment appointment = new Appointment(patient, doctor);
+                appointments.add(appointment);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -51,6 +69,6 @@ public class PatientDAO {
             }
         }
 
-        return patients;
+        return appointments;
     }
 }

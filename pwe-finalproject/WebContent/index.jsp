@@ -1,115 +1,95 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="dao.AppointmentDAO" %>
+<%@ page import="model.Appointment" %>
+<%@ page import="model.Patient" %>
+<%@ page import="model.Doctor" %>
+<%@ page import="java.util.List" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
-  	<meta charset="utf-8">
-  	<meta name="viewport" content="width=device-width, initial-scale=1">
-  	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-	<style type="text/css">
-        * {
-            margin: 0;
-            padding: 0;
-        }
-        
-        /* Set dark mode color scheme */
+    <title>Appointments</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
         body {
-            background-color: #111;
-            color: #fff;
-            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #ffffff;
         }
-        
-        /* Top menu container */
-        .top-menu {
-            background-color: #333;
-            height: 50px;
-            padding: 10px;
+
+        .container {
+            margin-top: 50px;
         }
-        
-        .top-menu a {
-            color: #fff;
+
+        .table {
+            background-color: #2c2c2c;
+            color: #ffffff;
+        }
+
+        .table th,
+        .table td {
+            border-color: #ffffff;
+        }
+
+        .table thead th {
+            background-color: #2c2c2c;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .table tbody td a {
+            color: #fca311;
             text-decoration: none;
-            padding: 5px 10px;
-            margin-right: 10px;
         }
-        
-        /* Middle container */
-        .middle-container {
-            margin: 20px auto;
-            width: 80%;
+
+        .table tbody tr:hover {
+            background-color: #3c3c3c;
         }
-        
-        /* Bottom footer container */
-        .bottom-footer {
-            background-color: #333;
-            height: 50px;
-            padding: 10px;
-            text-align: center;
+
+        .alert-info {
+            background-color: #2c2c2c;
+            color: #ffffff;
         }
-        
-        .bottom-footer p {
-            color: #fff;
-            margin: 0;
-        }	
-		
-	</style>
-	<script type="text/javascript">
-		$(document).ready( function () {
-			$("#btnInicio").click(function() {
-				$("#leftDiv").load("leftArea.jsp");
-				$("#rightDiv").load("rightArea.jsp");
-				$("#bottonDiv").load("bottonArea.jsp");
-			});
-		});
-	</script>
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h3>Next Appointments</h3>
+        <table id="appointmentTable" class="table">
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (appointments.isEmpty()) { %>
+                    <tr>
+                        <td colspan="4">No appointments registered</td>
+                    </tr>
+                <% } else { %>
+                    <c:forEach items="${appointments}" var="appointment">
+                        <tr>
+                            <td><a href="patient.jsp?id=${appointment.getPatient().getId()}">${appointment.getPatient().getName()}</a></td>
+                            <td>${appointment.getDoctor().getName()}</td>
+                            <td>${appointment.getDate()}</td>
+                            <td>${appointment.getTime()}</td>
+                        </tr>
+                    </c:forEach>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
 
-	<div class="top-menu">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Contact</a>
-    </div>
-    
-    <div class="middle-container">
-        <!-- Your content goes here -->
-        <h1>Welcome to the Medical Application</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus ultricies efficitur.</p>
-   		<div class="middle-container">
-    <h1>Welcome to the Medical Application</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus ultricies efficitur.</p>
-    
-    <table class="table table-dark table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Age</th>
-                <!-- Add more columns as per your requirements -->
-            </tr>
-        </thead>
-        <tbody>
-            <% for (Patient patient : patientList) { %>
-            <tr>
-                <td><%= patient.getId() %></td>
-                <td><%= patient.getName() %></td>
-                <td><%= patient.getAge() %></td>
-                <!-- Add more columns as per your requirements -->
-            </tr>
-            <% } %>
-        </tbody>
-    </table>
-</div>
-   		
-    </div>
-    
-    <div class="bottom-footer">
-        <p>&copy; 2023 Medical Application. All rights reserved.</p>
-    </div>
-    
-    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        // ... (The rest of your JavaScript code)
+    </script>
 </body>
 </html>

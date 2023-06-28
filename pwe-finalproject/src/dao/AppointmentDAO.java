@@ -42,10 +42,10 @@ public class AppointmentDAO {
                 int doctorId = resultSet.getInt("doctor_id");
                 String doctorName = resultSet.getString("doctor_name");
 
-                // Create a new Appointment object and add it to the list
-                Patient patient = new Patient(patientId, patientName, patientAge);
+                // Create a new Patient object and add it to the list
+                Patient patient = new Patient(patientId, patientName, null, patientAge, 0, 0, null);
                 Doctor doctor = new Doctor(doctorId, doctorName);
-                Appointment appointment = new Appointment(patient, doctor);
+                Appointment appointment = new Appointment(patient, doctor, null, doctorName);
                 appointments.add(appointment);
             }
         } catch (SQLException e) {
