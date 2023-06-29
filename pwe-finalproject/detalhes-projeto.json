@@ -1,24 +1,18 @@
 {
     "nome_grupo": "Visualização Hospitalar",
     "resumo": "A aplicação contará com uma tela de auxílio médico, em que o prpfissional de saúde poderá exibir dados do paciente",
-    "tecnologias utilizadas": "Java, jQuery, Bootstrap, Ajax, SQL, Apache Tomcat, dentre outras a serem definidas",
+    "tecnologias utilizadas": "Java, jQuery, Bootstrap, Ajax, SQL, Apache Tomcat, JSP, Servlet",
     "entregas": {
-        "analise": "00/00/2023",
-        "desenvolvimento_frontend": "00/00/2023",
-        "desenvolvimento_backend": "00/00/2023",
-        "testes": "00/00/2023",
         "entrega_final": "28/06/2023"
     },
     "demandas": "Integração com Servlet",
     "participante": [
-        { "nome": "César Augusto Ramos Reigado", "prontuario": "gu3019977", "atividade": "sua colaboração nesse trabalho" },
-        { "nome": "Larissa Trivinho Gelesov", "prontuario": "gu3020142", "atividade": "sua colaboração nesse trabalho" }
+        { "nome": "César Augusto Ramos Reigado", "prontuario": "gu3019977", "atividade": "" },
+        { "nome": "Victor Freires Almeida de Arruda", "prontuario": "gu3020002", "atividade": "" }
     ],
-    "gitHub": "https://github.com/<sua conta>/<seu projeto>",
+    "gitHub": "https://github.com/CesarCarr/pwe-finalproject/edit/main/pwe-finalproject/",
     "arquivos_adicionais": {
         "README.txt": "explicando todos os caminhos",
         "database.sql": "com o SQL de criação do banco e alimentação inicial",
-        "Descricao.doc": "com o Texto e Diagramas de Análise, regras de negócio e definições de o que e como você vai fazer",
-        "diagramas.plantuml": "sugiro usar https://plantuml.com/class-diagram pra diagrama, já tem vários exemplos lá e como o diagrama é gerado por texto pode contar com ajuda de algumas ferramentas"
     }
 }
