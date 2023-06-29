@@ -9,8 +9,6 @@ public class Doctor {
         this.name = name;
     }
 
-    // Getter and setter methods for id and name
-
     public int getId() {
         return id;
     }
