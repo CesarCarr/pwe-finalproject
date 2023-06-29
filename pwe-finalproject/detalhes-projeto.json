@@ -13,6 +13,6 @@
     "gitHub": "https://github.com/CesarCarr/pwe-finalproject/edit/main/pwe-finalproject/",
     "arquivos_adicionais": {
         "README.txt": "explicando todos os caminhos",
-        "database.sql": "com o SQL de criação do banco e alimentação inicial",
-    }
+        "database.sql": "com o SQL de criação do banco e alimentação inicial"
+   }
 }
